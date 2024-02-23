@@ -1,0 +1,202 @@
+# === Main Key === # 
+# Win Key
+set $mod Mod4 
+
+# === IPC === #
+# ipc-socket "/run/user/$(id -u)/i3/ipc-socket"
+
+# === Compositor === #
+exec_always --no-startup-id picom -b --config /home/$USER/.config/picom.conf
+
+# === NordVpn === #
+exec --no-startup-id nordvpn set meshnet on
+
+# === Set Font === #
+font pango:CaskaydiaCove Nerd Font Mono 14
+
+# === Input Method === #
+exec --no-startup-id fcitx5 -d
+
+# === XDG autostart === #
+exec --no-startup-id dex --autostart --environment i3
+
+# === Screen Lock === #
+# exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+
+# === Network Manager === #
+exec --no-startup-id nm-applet
+
+# === Variables === #
+set $refresh_i3status killall -SIGUSR1 i3status
+set $wallpaper_path ~/.wallpapers
+
+# === Wallpaper === #
+exec --no-startup-id feh --recursive --bg-fill --randomize $wallpaper_path
+
+# === Window Control === #
+# mouse+mod frag floating windows
+tiling_drag modifier titlebar
+floating_modifier $mod 
+
+# === Window Setting === #
+# Hide window title
+default_border pixel 0
+default_floating_border pixel 0
+for_window [class="^.*"] border pixel 4 
+
+# Gaps
+gaps inner 14
+
+# === Workspaces === #
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+# === Key Bind === #
+# Lock Screen
+bindsym $mod+L exec --no-startup-id xset dpms force off
+
+# = Volumn Control = #
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ off && pactl set-sink-volume @DEFAULT_SINK@ +2% && $refresh_i3status
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ off && pactl set-sink-volume @DEFAULT_SINK@ -2% && $refresh_i3status
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+bindsym XF86AudioPlay exec --no-startup-id playerctl play-pause
+bindsym XF86AudioPrev exec --no-startup-id playerctl previous
+bindsym XF86AudioNext exec --no-startup-id playerctl next 
+
+# = Brightness Control == #
+bindsym XF86MonBrightnessUp exec --no-startup-id xbacklight -inc 10 -fps 60
+bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 10 -fps 60
+
+# = Screenshot = #
+bindsym Shift+$mod+s exec --no-startup-id ~/bin/screenshot.sh select
+bindsym Shift+$mod+Control+s exec --no-startup-id ~/bin/screenshot.sh
+
+# toggle night light
+bindsym Control+$mod+n exec --no-startup-id redshift -O 4000
+bindsym Control+$mod+Shift+n exec --no-startup-id redshift -x
+
+# kill focused window
+bindsym Mod1+F4 kill
+bindsym $mod+q kill
+
+# reload the configuration file
+bindsym $mod+Shift+c reload
+
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+
+# = Applications = #
+# Terminal
+bindsym $mod+t exec env GLFW_IM_MODULE=ibus i3-sensible-terminal
+bindsym Control+Mod1+t exec env GLFW_IM_MODULE=ibus i3-sensible-terminal
+bindsym $mod+Return exec env GLFW_IM_MODULE=ibus i3-sensible-terminal
+
+# webbrowser
+bindsym $mod+f exec --no-startup-id firefox 
+
+# Application launcher
+bindsym Mod1+space exec --no-startup-id rofi -show drun
+
+# = Shortcut = #
+bindsym Control+$mod+R exec --no-startup-id feh --recursive --bg-fill --randomize $wallpaper_path
+bindsym $mod+c exec --no-startup-id code
+
+# = Window = #
+# change focus
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# move focused window
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# resize window (you can also use the mouse for that)
+mode "resize" {
+        # These bindings trigger as soon as you enter the resize mode
+        bindsym Left resize shrink width 10 px or 10 ppt
+        bindsym Down resize grow height 10 px or 10 ppt
+        bindsym Up resize shrink height 10 px or 10 ppt
+        bindsym Right resize grow width 10 px or 10 ppt
+
+        # back to normal: Enter or Escape or $mod+r
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+        bindsym $mod+r mode "default"
+}
+
+bindsym $mod+r mode "resize"
+
+# split in horizontal orientation
+bindsym $mod+h split h
+
+# split in vertical orientation
+bindsym $mod+v split v
+
+# enter fullscreen mode for the focused container
+bindsym F11 fullscreen toggle
+bindsym Control+$mod+f fullscreen toggle
+
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# toggle tiling / floating
+bindsym $mod+Shift+f floating toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# focus the parent container
+bindsym $mod+a focus parent
+
+# switch to workspace
+bindsym $mod+1 workspace number $ws1
+bindsym $mod+2 workspace number $ws2
+bindsym $mod+3 workspace number $ws3
+bindsym $mod+4 workspace number $ws4
+bindsym $mod+5 workspace number $ws5
+bindsym $mod+6 workspace number $ws6
+bindsym $mod+7 workspace number $ws7
+bindsym $mod+8 workspace number $ws8
+bindsym $mod+9 workspace number $ws9
+bindsym $mod+0 workspace number $ws10
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3
+bindsym $mod+Shift+4 move container to workspace number $ws4
+bindsym $mod+Shift+5 move container to workspace number $ws5
+bindsym $mod+Shift+6 move container to workspace number $ws6
+bindsym $mod+Shift+7 move container to workspace number $ws7
+bindsym $mod+Shift+8 move container to workspace number $ws8
+bindsym $mod+Shift+9 move container to workspace number $ws9
+bindsym $mod+Shift+0 move container to workspace number $ws10
+
+# === Polybar === #
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+
+# === Color === #
+# class                 border  backgr. text    indicator child_border
+client.focused          #d0a2f780 #ffffff #ffffff #d0a2f780   #d0a2f780
+# client.focused_inactive #333333 #5f676a #ffffff #484e50   #5f676a
+# client.unfocused        #333333 #222222 #888888 #292d2e   #222222
+# client.urgent           #2f343a #900000 #ffffff #900000   #900000
+# client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
+
+# === Environment Settings === #
+# exec_always --no-startup-id nvidia-settings --assign CurrentMetaMode="nvidia-auto-select +0+0 {ForceFullCompositionPipeline=On}"
