@@ -40,5 +40,16 @@ if [[ -n $SSH_CONNECTION ]]; then
     run_silent run_ssh_agent
 fi
 
+if command -v nvm &> /dev/null; then
+    # NVM
+    source /usr/share/nvm/init-nvm.sh
+fi
 
-source /usr/share/nvm/init-nvm.sh
+if [ ! -e "$HOME/.config/nvim" ]; then
+  echo "nvim not installed!"
+  if ! command -v git &> /dev/null; then
+    echo "git not installed!"
+  else
+    git clone "https://github.com/DACHXY/DachxyVim.git" "$HOME/.config/nvim"
+  fi
+fi

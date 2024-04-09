@@ -42,7 +42,7 @@ floating_modifier $mod
 # Hide window title
 default_border pixel 0
 default_floating_border pixel 0
-for_window [class="^.*"] border pixel 4 
+for_window [class="^.*"] border pixel 0 
 
 # Gaps
 gaps inner 14
@@ -189,6 +189,10 @@ bindsym $mod+Shift+0 move container to workspace number $ws10
 
 # === Polybar === #
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+
+# === Xborders === #
+exec_always --no-startup-id xborders -c $HOME/.config/xborders/config.json
+
 
 # === Color === #
 # class                 border  backgr. text    indicator child_border
