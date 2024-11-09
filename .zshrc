@@ -1,4 +1,5 @@
 # === PATH & Environment === #
+ZSH_DISABLE_COMPFIX="true"
 export ZSH="$HOME/.oh-my-zsh"
 export PATH="$PATH:$HOME/bin"
 export PATH="$PATH:/opt/pulsesecure/bin/"
@@ -13,10 +14,9 @@ export LESS_TERMCAP_se=$'\e[0m'
 export LESS_TERMCAP_so=$'\e[01;33m'
 export LESS_TERMCAP_ue=$'\e[0m'
 export LESS_TERMCAP_us=$'\e[1;4;31m'
-export GTK_IM_MODULE=fcitx
-export QT_IM_MODULE=fcitx
-export XMODIFIERS=@im=fcitx
-export GLFW_IM_MODULE=fcitx
+
+# === use nvm === #
+source /usr/share/nvm/init-nvm.sh
 
 # === zsh config === #
 zstyle ':omz:update' mode auto      # update automatically without asking
@@ -53,3 +53,5 @@ if [ ! -e "$HOME/.config/nvim" ]; then
     git clone "https://github.com/DACHXY/DachxyVim.git" "$HOME/.config/nvim"
   fi
 fi
+
+PATH=~/.console-ninja/.bin:$PATH

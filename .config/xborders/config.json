@@ -1,5 +1,5 @@
 {
+  "border-rgba": "#D0A2F7BB",
   "border-radius": 12,
-  "border-mode": "outside",
-  "border-rgba": "0x1E1E2EFF"
+  "border-mode": "outside"
 }

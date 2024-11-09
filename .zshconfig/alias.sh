@@ -6,6 +6,7 @@ alias i="exa --icons"
 alias camera="mpv av://v4l2:/dev/video0 --profile=low-latency --untimed"
 alias p="poetry"
 alias y="yadm"
+alias rm="trash"
 
 # update mirror list (need rate-mirrors)
 alias update-mirrors="sudo mv /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.bak && rate-mirrors --disable-comments-in-file --protocol=https arch --max-delay 7200 | sudo tee /etc/pacman.d/mirrorlist"

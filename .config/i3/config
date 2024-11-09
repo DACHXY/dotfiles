@@ -6,7 +6,7 @@ set $mod Mod4
 # ipc-socket "/run/user/$(id -u)/i3/ipc-socket"
 
 # === Compositor === #
-exec_always --no-startup-id picom -b --config /home/$USER/.config/picom.conf
+exec_always --no-startup-id picom -b --config /home/$USER/.config/picom.conf --animations --animation-window-mass 0.5 --animation-for-open-window zoom --animation-stiffness-in-tag 200
 
 # === NordVpn === #
 exec --no-startup-id nordvpn set meshnet on
@@ -14,8 +14,14 @@ exec --no-startup-id nordvpn set meshnet on
 # === Set Font === #
 font pango:CaskaydiaCove Nerd Font Mono 14
 
+# === AutoTiling === #
+exec_always --no-startup-id autotiling
+
 # === Input Method === #
 exec --no-startup-id fcitx5 -d
+
+# === Touchpad Gesture === #
+exec_always --no-startup-id libinput-gestures-setup start
 
 # === XDG autostart === #
 exec --no-startup-id dex --autostart --environment i3
@@ -23,15 +29,18 @@ exec --no-startup-id dex --autostart --environment i3
 # === Screen Lock === #
 # exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 
+# === Wallpapper Init === #
+exec --no-startup-id ~/bin/wallpaperctl.sh init 
+
 # === Network Manager === #
 exec --no-startup-id nm-applet
+
+# === Night Light === #
+exec --no-startup-id ~/bin/nightlightctl.sh init
 
 # === Variables === #
 set $refresh_i3status killall -SIGUSR1 i3status
 set $wallpaper_path ~/.wallpapers
-
-# === Wallpaper === #
-exec --no-startup-id feh --recursive --bg-fill --randomize $wallpaper_path
 
 # === Window Control === #
 # mouse+mod frag floating windows
@@ -81,8 +90,9 @@ bindsym Shift+$mod+s exec --no-startup-id ~/bin/screenshot.sh select
 bindsym Shift+$mod+Control+s exec --no-startup-id ~/bin/screenshot.sh
 
 # toggle night light
-bindsym Control+$mod+n exec --no-startup-id redshift -O 4000
-bindsym Control+$mod+Shift+n exec --no-startup-id redshift -x
+bindsym Control+$mod+n exec --no-startup-id ~/bin/nightlightctl.sh next
+bindsym Control+$mod+b exec --no-startup-id ~/bin/nightlightctl.sh prev 
+bindsym Control+$mod+Shift+n exec --no-startup-id ~/bin/nightlightctl.sh restore 
 
 # kill focused window
 bindsym Mod1+F4 kill
@@ -107,7 +117,9 @@ bindsym $mod+f exec --no-startup-id firefox
 bindsym Mod1+space exec --no-startup-id rofi -show drun
 
 # = Shortcut = #
-bindsym Control+$mod+R exec --no-startup-id feh --recursive --bg-fill --randomize $wallpaper_path
+bindsym Control+$mod+R exec --no-startup-id ~/bin/wallpaperctl.sh random
+bindsym Control+$mod+Right exec --no-startup-id ~/bin/wallpaperctl.sh next
+bindsym Control+$mod+Left exec --no-startup-id ~/bin/wallpaperctl.sh prev
 bindsym $mod+c exec --no-startup-id code
 
 # = Window = #
@@ -193,6 +205,8 @@ exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 # === Xborders === #
 exec_always --no-startup-id xborders -c $HOME/.config/xborders/config.json
 
+# === AutoStart === #
+exec_always barrierc --daemon -1 --disable-crypto 192.168.0.2:24800
 
 # === Color === #
 # class                 border  backgr. text    indicator child_border
